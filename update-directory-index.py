@@ -6,8 +6,8 @@ from string import Template
 from time import strftime
 import os, sys
 
-# The magic token is used to guard against accidents.
-# This script will not overwrite files that do not contain it.
+# The magic token is used to guard against accidents. This script will not overwrite files that do not contain it.
+# The token must not be split over two lines.
 INDEX_FNAME = "index.html"
 MAGIC_TOKEN = "711CD4AFDDF4F6E6E1A9986267B5FEC62DD273FE8A63E236D3351E3E846CCDE2"
 
@@ -131,10 +131,11 @@ if __name__ == "__main__":
         doWrite = True;
         if os.path.isfile(target):
             # Check anti-accident protection
+            doWrite = False;
             fh = open(target,"r")
             for line in fh:
-                if line.startswith(MAGIC_TOKEN):
-                    doWrite = False;
+                if line.find(MAGIC_TOKEN) >=0 :
+                    doWrite = True;
                     break;
             fh.close()
                 
