@@ -11,6 +11,8 @@ import os, sys
 INDEX_FNAME = "index.html"
 MAGIC_TOKEN = "711CD4AFDDF4F6E6E1A9986267B5FEC62DD273FE8A63E236D3351E3E846CCDE2"
 
+SELF_PATH = os.path.abspath(sys.argv[0])
+
 # Taken from http://stackoverflow.com/questions/1094841/reusable-library-to-get-human-readable-version-of-file-size
 def formatSize(bytes):
     for x in ['b','k','m','g','t']:
@@ -81,16 +83,16 @@ def buildListing(dirs,files,label):
     return html
 
 
-def listdir(d):
+def listdir(d):    
     items = os.listdir(d)
     dirs = []
     files = []
     items.sort()
     for i in items:
-        if i.startswith("."): continue
-        if i == "index.html" : continue
-        
+        if i.startswith("."): continue # Ignore current/parent/hidden dirs
+        if i == "index.html" : continue # Ignore indexes        
         path = os.path.join(d,i)
+        if os.path.abspath(path) == SELF_PATH: continue # Don't index self
         if os.path.isdir(path):
             dirs.append(path)
         elif os.path.isfile(path):
