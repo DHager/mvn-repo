@@ -1,0 +1,1 @@
+This git repository holds no source code, and is just a shared stub for using github pages to distribute builds of maven projects.
